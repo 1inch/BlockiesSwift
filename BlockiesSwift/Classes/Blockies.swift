@@ -216,14 +216,12 @@ class BlockiesHelper {
      */
     static func createRandSeed(seed: String) -> [UInt32] {
         var randSeed = [UInt32](repeating: 0, count: 4)
-        for i in 0 ..< seed.count {
+        for (i, char) in seed.enumerated() {
             // &* and &- are the "overflow" operators. Need to be used there.
             // There is no overflow left shift operator so we do "&* pow(2, 5)" instead of "<< 5"
             randSeed[i % 4] = ((randSeed[i % 4] &* (2 << 4)) &- randSeed[i % 4])
-            let index = seed.index(seed.startIndex, offsetBy: i)
-            randSeed[i % 4] = randSeed[i % 4] &+ seed[index].asciiValue
+            randSeed[i % 4] = randSeed[i % 4] &+ char.asciiValue
         }
-
         return randSeed
     }
 }
